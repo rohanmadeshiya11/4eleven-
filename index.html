@@ -70,11 +70,11 @@
         }
         .outline-text:hover { -webkit-text-stroke: 1px var(--text-white); }
 
-        /* Animation Classes */
-        .fade-up { opacity: 0; transform: translateY(60px); }
-
-        /* Magnetic Elements */
-        .magnetic { display: inline-block; transition: transform 0.2s cubic-bezier(0.23, 1, 0.32, 1); }
+        /* Transition Overlay */
+        #page-transition {
+            position: fixed; inset: 0; background: white; z-index: 100;
+            transform: translateY(100%); pointer-events: none;
+        }
 
         /* Marquee */
         .marquee-container {
@@ -87,24 +87,20 @@
         /* Portfolio Cards */
         .work-card img {
             transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), filter 0.8s ease;
-            filter: grayscale(1);
+            filter: grayscale(1) contrast(1.1);
+            width: 100%; height: 100%; object-fit: cover;
         }
         .work-card:hover img { transform: scale(1.05); filter: grayscale(0); }
 
-        /* Transition Overlay */
-        #page-transition {
-            position: fixed; inset: 0; background: white; z-index: 100;
-            transform: translateY(100%); pointer-events: none;
-        }
-
-        a, button, input, .work-card, .service-card { cursor: none; }
-
+        /* Navigation */
         .nav-link.active {
             color: white;
             text-decoration: underline;
             text-underline-offset: 8px;
             text-decoration-color: rgba(255,255,255,0.4);
         }
+
+        a, button, input, .work-card, .service-card { cursor: none; }
 
         .service-item {
             position: relative; padding-left: 0;
@@ -114,6 +110,8 @@
             padding-left: 8px;
             color: var(--text-white);
         }
+        
+        .page-content { min-height: 100vh; }
     </style>
 </head>
 <body class="selection:bg-white selection:text-black">
@@ -143,10 +141,11 @@
     <nav class="fixed top-0 w-full z-50 p-8 md:p-12 flex justify-between items-center mix-blend-difference">
         <div class="h-8 md:h-10 magnetic flex items-center gap-4 cursor-pointer" data-magnetic-strength="0.3" onclick="navigateTo('home')">
             <img 
-                src="assets/513689670_17969272799912864_8394707357259788053_n-Photoroom.png" 
+                id="main-logo"
+                src="513689670_17969272799912864_8394707357259788053_n-Photoroom.png" 
                 alt="4-11 Logo" 
                 class="h-full w-auto object-contain brightness-0 invert"
-                onerror="this.style.display='none'; this.nextElementSibling.classList.remove('hidden');"
+                onerror="this.src='assets/513689670_17969272799912864_8394707357259788053_n-Photoroom.png'; this.onerror=function(){this.style.display='none'; document.getElementById('logo-fallback').classList.remove('hidden');};"
             >
             <div id="logo-fallback" class="hidden text-2xl font-black tracking-tighter italic uppercase text-white">4-11 Studio</div>
         </div>
@@ -160,7 +159,7 @@
 
     <!-- Dynamic Content Container -->
     <main id="content-area">
-        <!-- Home Page (Default) -->
+        <!-- Home Page -->
         <div id="page-home" class="page-content">
             <section class="min-h-screen flex flex-col justify-center px-6 md:px-12 pt-24 relative bg-black overflow-hidden">
                 <div class="max-w-7xl mx-auto w-full">
@@ -197,284 +196,9 @@
             <section class="py-32 px-6 md:px-12 bg-[#050505]">
                 <div class="max-w-7xl mx-auto">
                     <div class="mb-24 flex justify-between items-end fade-up">
-                        <h2 class="text-5xl font-black uppercase tracking-tighter">Featured Work</h2>
+                        <h2 class="text-5xl font-black uppercase tracking-tighter text-white">Featured Work</h2>
                         <a href="javascript:void(0)" onclick="navigateTo('work')" class="text-[10px] mono uppercase tracking-widest text-neutral-500 hover:text-white underline">All Projects</a>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
                         <div class="work-card group fade-up">
-                            <img src="https://cdn.myportfolio.com/fc6159c9-63f3-406f-8ed9-0be02a8bc507/750162d6-0dd5-4b8c-a4b9-d5766d17b1cc_car_202x158.png" class="aspect-video w-full object-cover rounded-lg">
-                            <h3 class="mt-6 text-xl font-bold uppercase">Traya Health</h3>
-                        </div>
-                        <div class="work-card group fade-up mt-12 md:mt-24">
-                            <img src="https://cdn.myportfolio.com/fc6159c9-63f3-406f-8ed9-0be02a8bc507/b6663898-0a6b-47e5-a0d1-bec73523883f_car_202x158.jpg" class="aspect-video w-full object-cover rounded-lg">
-                            <h3 class="mt-6 text-xl font-bold uppercase">Kibo Hair Transplant</h3>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </div>
-
-        <!-- Work Page -->
-        <div id="page-work" class="page-content hidden">
-            <section class="pt-48 pb-32 px-6 md:px-12 bg-black min-h-screen">
-                <div class="max-w-7xl mx-auto">
-                    <div class="mb-32 fade-up">
-                        <h2 class="text-[10vw] font-black tracking-tighter leading-none uppercase">Portfolio</h2>
-                        <p class="text-neutral-500 mt-8 max-w-xl text-xl">Curated projects that defined brand trajectories in 2026.</p>
-                    </div>
-                    
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-20 gap-y-32">
-                        <div class="work-card group fade-up">
-                            <img src="https://cdn.myportfolio.com/fc6159c9-63f3-406f-8ed9-0be02a8bc507/750162d6-0dd5-4b8c-a4b9-d5766d17b1cc_car_202x158.png" class="aspect-[4/3] w-full object-cover rounded-lg">
-                            <h4 class="text-2xl font-black mt-8 uppercase tracking-tighter">Traya Health</h4>
-                            <p class="mono text-[10px] text-neutral-500 uppercase mt-2">Content • Creatives</p>
-                        </div>
-                        <div class="work-card group fade-up">
-                            <img src="https://cdn.myportfolio.com/fc6159c9-63f3-406f-8ed9-0be02a8bc507/b6663898-0a6b-47e5-a0d1-bec73523883f_car_202x158.jpg" class="aspect-[4/3] w-full object-cover rounded-lg">
-                            <h4 class="text-2xl font-black mt-8 uppercase tracking-tighter">Kibo Hair Transplant</h4>
-                            <p class="mono text-[10px] text-neutral-500 uppercase mt-2">Video Production</p>
-                        </div>
-                        <div class="work-card group fade-up">
-                            <img src="https://cdn.myportfolio.com/fc6159c9-63f3-406f-8ed9-0be02a8bc507/f3c7dc7a-0516-45eb-9289-be45a91db101_car_202x158.jpg" class="aspect-[4/3] w-full object-cover rounded-lg">
-                            <h4 class="text-2xl font-black mt-8 uppercase tracking-tighter">mCaffeine</h4>
-                            <p class="mono text-[10px] text-neutral-500 uppercase mt-2">Social Strategy</p>
-                        </div>
-                        <div class="work-card group fade-up">
-                            <img src="https://cdn.myportfolio.com/fc6159c9-63f3-406f-8ed9-0be02a8bc507/5b0331ab-c158-4600-aaff-1c596fb20539_car_202x158.jpg" class="aspect-[4/3] w-full object-cover rounded-lg">
-                            <h4 class="text-2xl font-black mt-8 uppercase tracking-tighter">YouTube Thumbnails</h4>
-                            <p class="mono text-[10px] text-neutral-500 uppercase mt-2">Visual Design</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </div>
-
-        <!-- Services Page -->
-        <div id="page-services" class="page-content hidden">
-            <section class="pt-48 pb-32 px-6 md:px-12 bg-black min-h-screen">
-                <div class="max-w-7xl mx-auto">
-                    <div class="mb-32 fade-up">
-                        <h2 class="text-[10vw] font-black tracking-tighter leading-none uppercase">Expertise</h2>
-                    </div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        <div class="service-card p-10 bg-neutral-900/40 border border-white/5 fade-up">
-                            <div class="text-3xl font-black mb-8 mono opacity-20">01</div>
-                            <h3 class="text-2xl font-bold uppercase mb-4">Branding</h3>
-                            <p class="text-neutral-500 text-sm mb-8">We create distinctive brand identities that are memorable and scalable.</p>
-                            <ul class="space-y-3 mono text-[10px] uppercase text-neutral-400">
-                                <li class="service-item">Logo Design</li>
-                                <li class="service-item">Identity Systems</li>
-                                <li class="service-item">Brand Guidelines</li>
-                            </ul>
-                        </div>
-                        <div class="service-card p-10 bg-neutral-900/40 border border-white/5 fade-up">
-                            <div class="text-3xl font-black mb-8 mono opacity-20">02</div>
-                            <h3 class="text-2xl font-bold uppercase mb-4">Content Strategy</h3>
-                            <p class="text-neutral-500 text-sm mb-8">We plan and structure content that aligns with your business goals.</p>
-                            <ul class="space-y-3 mono text-[10px] uppercase text-neutral-400">
-                                <li class="service-item">Content Planning</li>
-                                <li class="service-item">Visual Direction</li>
-                                <li class="service-item">Growth Strategy</li>
-                            </ul>
-                        </div>
-                        <div class="service-card p-10 bg-neutral-900/40 border border-white/5 fade-up">
-                            <div class="text-3xl font-black mb-8 mono opacity-20">03</div>
-                            <h3 class="text-2xl font-bold uppercase mb-4">Media Production</h3>
-                            <p class="text-neutral-500 text-sm mb-8">Visual storytelling that bridges the gap between brand and audience.</p>
-                            <ul class="space-y-3 mono text-[10px] uppercase text-neutral-400">
-                                <li class="service-item">Ad Films</li>
-                                <li class="service-item">Commercial Photography</li>
-                                <li class="service-item">Brand Shoots</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </div>
-
-        <!-- About Page -->
-        <div id="page-about" class="page-content hidden">
-            <section class="pt-48 pb-32 px-6 md:px-12 bg-black min-h-screen">
-                <div class="max-w-7xl mx-auto">
-                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-20">
-                        <div class="lg:col-span-12 fade-up">
-                            <h2 class="text-[10vw] font-black tracking-tighter leading-none uppercase">About Us</h2>
-                        </div>
-                        <div class="lg:col-span-8 fade-up">
-                            <p class="text-3xl md:text-5xl text-neutral-300 font-medium leading-tight">
-                                We don’t just design; we define. 4-11 Studio is a high-performance node for the future of brand identity.
-                            </p>
-                        </div>
-                        <div class="lg:col-span-4 fade-up">
-                            <div class="p-8 border border-white/10 rounded-xl bg-neutral-900/20">
-                                <span class="mono text-[8px] uppercase tracking-widest text-neutral-600 block mb-6">Established</span>
-                                <p class="text-4xl font-black italic">2026</p>
-                                <hr class="my-6 border-white/5">
-                                <span class="mono text-[8px] uppercase tracking-widest text-neutral-600 block mb-2">Location</span>
-                                <p class="text-sm font-bold uppercase">Mumbai • Worldwide</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </div>
-
-        <!-- Contact Page -->
-        <div id="page-contact" class="page-content hidden">
-            <section class="pt-48 pb-32 px-6 md:px-12 bg-black min-h-screen flex items-center">
-                <div class="max-w-7xl mx-auto w-full">
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-20">
-                        <div class="fade-up">
-                            <h2 class="text-7xl md:text-9xl font-black uppercase tracking-tighter leading-none">Let's<br>Talk.</h2>
-                            <p class="text-neutral-500 mt-12 text-xl max-w-sm">Ready to build something powerful? Drop us a line.</p>
-                            <div class="mt-12">
-                                <a href="mailto:hello@4eleven.in" class="text-3xl md:text-5xl font-bold underline decoration-neutral-800 hover:decoration-white transition-all underline-offset-8">hello@4eleven.in</a>
-                            </div>
-                        </div>
-                        <div class="fade-up bg-neutral-950 p-12 rounded-2xl border border-white/5">
-                            <form class="space-y-12">
-                                <div>
-                                    <label class="mono text-[8px] uppercase tracking-widest text-neutral-600">Your Name</label>
-                                    <input type="text" placeholder="Identity 01" class="w-full bg-transparent border-b border-white/10 py-4 focus:border-white outline-none font-bold uppercase placeholder:text-neutral-800">
-                                </div>
-                                <div>
-                                    <label class="mono text-[8px] uppercase tracking-widest text-neutral-600">Email Address</label>
-                                    <input type="email" placeholder="user@node.in" class="w-full bg-transparent border-b border-white/10 py-4 focus:border-white outline-none font-bold uppercase placeholder:text-neutral-800">
-                                </div>
-                                <div>
-                                    <label class="mono text-[8px] uppercase tracking-widest text-neutral-600">Brief</label>
-                                    <textarea placeholder="Scaling the project..." rows="3" class="w-full bg-transparent border-b border-white/10 py-4 focus:border-white outline-none font-bold uppercase placeholder:text-neutral-800"></textarea>
-                                </div>
-                                <button type="submit" class="bg-white text-black w-full py-6 rounded-full font-black uppercase tracking-widest text-xs hover:bg-neutral-200 transition-all">Connect</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </div>
-    </main>
-
-    <!-- Unified Footer -->
-    <footer class="py-20 px-6 md:px-12 bg-black border-t border-white/10 text-center">
-        <div class="flex flex-col gap-8">
-            <div class="text-3xl font-black tracking-tighter italic uppercase text-white cursor-pointer" onclick="navigateTo('home')">4-11 Studio</div>
-            <div class="flex justify-center gap-12 text-[10px] font-black tracking-[0.4em] uppercase text-neutral-500">
-                <a href="https://www.instagram.com/four_eleven.in/" target="_blank" class="hover:text-white transition-colors">Instagram</a>
-                <a href="#" class="hover:text-white transition-colors">LinkedIn</a>
-                <a href="javascript:void(0)" onclick="navigateTo('contact')" class="hover:text-white transition-colors">Email</a>
-            </div>
-            <p class="text-[9px] font-bold text-neutral-600 uppercase tracking-[0.4em] mono">© 2026 4–11 Studio • Mumbai • Worldwide</p>
-        </div>
-    </footer>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // --- 1. Router Logic ---
-            window.navigateTo = (pageId) => {
-                const overlay = document.getElementById('page-transition');
-                const contentArea = document.getElementById('content-area');
-                const targetPage = document.getElementById(`page-${pageId}`);
-                
-                // Active State Update
-                document.querySelectorAll('.nav-link').forEach(link => {
-                    link.classList.remove('active');
-                    if(link.getAttribute('data-page') === pageId) link.classList.add('active');
-                });
-
-                // Update indicator
-                document.getElementById('page-indicator').innerText = `Location: ${pageId.charAt(0).toUpperCase() + pageId.slice(1)}`;
-
-                // Animation Sequence
-                gsap.to(overlay, {
-                    y: '0%',
-                    duration: 0.6,
-                    ease: "power4.inOut",
-                    onComplete: () => {
-                        // Switch content
-                        document.querySelectorAll('.page-content').forEach(p => p.classList.add('hidden'));
-                        targetPage.classList.remove('hidden');
-                        window.scrollTo(0, 0);
-                        
-                        // Transition out
-                        gsap.to(overlay, {
-                            y: '-100%',
-                            duration: 0.6,
-                            ease: "power4.inOut",
-                            onComplete: () => {
-                                gsap.set(overlay, { y: '100%' });
-                                initScrollAnimations();
-                            }
-                        });
-                    }
-                });
-            };
-
-            // --- 2. GSAP Scroll Reveals ---
-            gsap.registerPlugin(ScrollTrigger);
-            function initScrollAnimations() {
-                ScrollTrigger.getAll().forEach(t => t.kill());
-                gsap.utils.toArray('.fade-up').forEach(el => {
-                    gsap.fromTo(el, 
-                        { opacity: 0, y: 60 }, 
-                        { opacity: 1, y: 0, duration: 1, ease: "power3.out", scrollTrigger: { trigger: el, start: 'top 90%' } }
-                    );
-                });
-            }
-            initScrollAnimations();
-
-            // --- 3. Smooth Dual Cursor ---
-            const cursor = document.getElementById('cursor-follower');
-            const ring = document.getElementById('cursor-ring');
-            let mouseX = -100, mouseY = -100, cX = -100, cY = -100, rX = -100, rY = -100;
-            let firstMove = true;
-
-            document.addEventListener('mousemove', (e) => {
-                mouseX = e.clientX; mouseY = e.clientY;
-                if (firstMove) { cX = mouseX; cY = mouseY; rX = mouseX; rY = mouseY; firstMove = false; }
-            });
-
-            function animateCursor() {
-                cX += (mouseX - cX) * 0.4; cY += (mouseY - cY) * 0.4;
-                rX += (mouseX - rX) * 0.15; rY += (mouseY - rY) * 0.15;
-                cursor.style.transform = `translate3d(${cX - 4}px, ${cY - 4}px, 0)`;
-                ring.style.transform = `translate3d(${rX - 20}px, ${rY - 20}px, 0)`;
-                requestAnimationFrame(animateCursor);
-            }
-            animateCursor();
-
-            // --- 4. Magnetic Interaction ---
-            const initMagnetic = () => {
-                document.querySelectorAll('.magnetic').forEach((el) => {
-                    el.addEventListener('mousemove', function(e) {
-                        const rect = this.getBoundingClientRect();
-                        const x = e.clientX - rect.left - rect.width / 2;
-                        const y = e.clientY - rect.top - rect.height / 2;
-                        this.style.transform = `translate3d(${x * 0.2}px, ${y * 0.2}px, 0)`;
-                        ring.style.width = '70px'; ring.style.height = '70px';
-                    });
-                    el.addEventListener('mouseleave', function() {
-                        this.style.transform = `translate3d(0, 0, 0)`;
-                        ring.style.width = '40px'; ring.style.height = '40px';
-                    });
-                });
-            };
-            initMagnetic();
-
-            // --- 5. Interactive Stats ---
-            const clockEl = document.getElementById('live-clock');
-            const scrollEl = document.getElementById('scroll-percentage');
-
-            function updateStats() {
-                const now = new Date();
-                if(clockEl) clockEl.innerText = now.toTimeString().split(' ')[0];
-                const winScroll = window.scrollY;
-                const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-                const scrolled = height <= 0 ? 0 : Math.round((winScroll / height) * 100);
-                if(scrollEl) scrollEl.innerText = `Scroll: ${scrolled}%`;
-                requestAnimationFrame(updateStats);
-            }
-            updateStats();
-        });
-    </script>
-</body>
-</html>
+                            <div class="aspect-video w-full bg-neutral-900 overflow-hidden rounded-lg">
